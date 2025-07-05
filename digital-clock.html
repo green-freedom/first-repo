@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Clock - Multiple Time Zones</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #222; color: #fff; text-align: center; }
+    .clock { margin: 20px auto; padding: 20px; background: #333; border-radius: 10px; width: 320px; }
+    h2 { margin-bottom: 10px; }
+    .time { font-size: 2em; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Digital Clock (Multiple Time Zones)</h1>
+  <div id="clocks"></div>
+
+  <script>
+    // 你可以在这里添加更多的时区
+    const zones = [
+      { name: "Local", timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
+      { name: "UTC", timeZone: "UTC" },
+      { name: "New York", timeZone: "America/New_York" },
+      { name: "London", timeZone: "Europe/London" },
+      { name: "Beijing", timeZone: "Asia/Shanghai" },
+      { name: "Tokyo", timeZone: "Asia/Tokyo" }
+    ];
+
+    function updateClocks() {
+      const container = document.getElementById('clocks');
+      container.innerHTML = '';
+      zones.forEach(zone => {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: zone.timeZone,
+          hour12: false
+        });
+        const clockDiv = document.createElement('div');
+        clockDiv.className = 'clock';
+        clockDiv.innerHTML = `<h2>${zone.name}</h2><div class="time">${timeString}</div>`;
+        container.appendChild(clockDiv);
+      });
+    }
+
+    setInterval(updateClocks, 1000);
+    updateClocks();
+  </script>
+</body>
+</html>
